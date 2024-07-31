@@ -72,10 +72,8 @@ impl TryFrom<minidom::Element> for SupportedComponents {
 }
 
 /// Flags to tell which events should be retrieved
-#[derive(Default)]
 pub enum SearchFilter {
     /// Return all items
-    #[default]
     All,
     /// Return only tasks
     Tasks,
@@ -83,4 +81,10 @@ pub enum SearchFilter {
     // CompletedTasks,
     // /// Return only calendar events
     // Events,
+}
+
+impl Default for SearchFilter {
+    fn default() -> Self {
+        Self::All
+    }
 }
