@@ -22,13 +22,22 @@ bitflags! {
 
 impl SupportedComponents {
     pub fn to_xml_string(&self) -> String {
-        format!(r#"
+        format!(
+            r#"
             <B:supported-calendar-component-set>
                 {} {}
             </B:supported-calendar-component-set>
             "#,
-            if self.contains(Self::EVENT) { "<B:comp name=\"VEVENT\"/>" } else { "" },
-            if self.contains(Self::TODO)  { "<B:comp name=\"VTODO\"/>"  } else { "" },
+            if self.contains(Self::EVENT) {
+                "<B:comp name=\"VEVENT\"/>"
+            } else {
+                ""
+            },
+            if self.contains(Self::TODO) {
+                "<B:comp name=\"VTODO\"/>"
+            } else {
+                ""
+            },
         )
     }
 }
@@ -49,9 +58,12 @@ impl TryFrom<minidom::Element> for SupportedComponents {
                 Some("VEVENT") => flags.insert(Self::EVENT),
                 Some("VTODO") => flags.insert(Self::TODO),
                 Some(other) => {
-                    log::warn!("Unimplemented supported component type: {:?}. Ignoring it", other);
-                    continue
-                },
+                    log::warn!(
+                        "Unimplemented supported component type: {:?}. Ignoring it",
+                        other
+                    );
+                    continue;
+                }
             };
         }
 
@@ -59,10 +71,11 @@ impl TryFrom<minidom::Element> for SupportedComponents {
     }
 }
 
-
 /// Flags to tell which events should be retrieved
+#[derive(Default)]
 pub enum SearchFilter {
     /// Return all items
+    #[default]
     All,
     /// Return only tasks
     Tasks,
@@ -70,10 +83,4 @@ pub enum SearchFilter {
     // CompletedTasks,
     // /// Return only calendar events
     // Events,
-}
-
-impl Default for SearchFilter {
-    fn default() -> Self {
-        SearchFilter::All
-    }
 }
