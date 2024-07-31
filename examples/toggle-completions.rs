@@ -23,7 +23,7 @@ async fn main() {
     println!("This example show how to sync a remote server with a local cache, using a Provider.");
     println!("Make sure you have edited the constants in the 'shared.rs' file to include correct URLs and credentials.");
     println!("You can also set the RUST_LOG environment variable to display more info about the sync.");
-    println!("");
+    println!();
     println!("This will use the following settings:");
     println!("  * URL = {}", URL);
     println!("  * USERNAME = {}", USERNAME);

@@ -27,7 +27,7 @@ async fn main() {
     println!("This example show how to sync a remote server with a local cache, using a Provider.");
     println!("Make sure you have edited the constants in the 'shared.rs' file to include correct URLs and credentials.");
     println!("You can also set the RUST_LOG environment variable to display more info about the sync.");
-    println!("");
+    println!();
     println!("This will use the following settings:");
     println!("  * URL = {}", URL);
     println!("  * USERNAME = {}", USERNAME);
@@ -69,7 +69,7 @@ async fn add_items_and_sync_again(provider: &mut CalDavProvider) {
         .lock().unwrap().add_item(Item::Task(new_task)).await.unwrap();
 
 
-    if provider.sync().await == false {
+    if !(provider.sync().await) {
         log::warn!("Sync did not complete, see the previous log lines for more info. You can safely start a new sync. The new task may not have been synced.");
     } else {
         println!("Done syncing the new task '{}' and the new calendar '{}'", new_task_name, new_calendar_name);
@@ -93,7 +93,7 @@ async fn complete_item_and_sync_again(
         .unwrap_task_mut()
         .set_completion_status(completion_status);
 
-    if provider.sync().await == false {
+    if !(provider.sync().await) {
         log::warn!("Sync did not complete, see the previous log lines for more info. You can safely start a new sync. The new task may not have been synced.");
     } else {
         println!("Done syncing the completed task");
@@ -116,7 +116,7 @@ async fn remove_items_and_sync_again(
         .lock().unwrap()
         .mark_for_deletion(id_to_remove).await.unwrap();
 
-    if provider.sync().await == false {
+    if !(provider.sync().await) {
         log::warn!("Sync did not complete, see the previous log lines for more info. You can safely start a new sync. The new task may not have been synced.");
     } else {
         println!("Done syncing the deleted task");
