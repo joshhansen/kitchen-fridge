@@ -142,6 +142,15 @@ impl Task {
     pub fn completion_status(&self) -> &CompletionStatus {
         &self.completion_status
     }
+    /// Gets the completion date if relevant
+    ///
+    /// If the task is not completed, or was completed with an unspecified date, this will return None
+    pub fn completion_date(&self) -> Option<&DateTime<Utc>> {
+        match &self.completion_status {
+            CompletionStatus::Completed(date) => date.as_ref(),
+            CompletionStatus::Uncompleted => None,
+        }
+    }
     pub fn extra_parameters(&self) -> &[Property] {
         &self.extra_parameters
     }
